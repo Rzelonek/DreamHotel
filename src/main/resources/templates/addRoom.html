@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj nową kategorię pokoi</title>
+</head>
+<body>
+    <h1>Dodaj nową kategorię pokoi</h1>
+    <form th:action="@{/admin/rooms/add}" th:object="${roomCategory}" method="post">
+        <label>Typ:</label>
+        <input type="text" th:field="*{type}" required/><br/><br/>
+        <label>Nazwa:</label>
+        <input type="text" th:field="*{name}" required/><br/><br/>
+        <label>Pojemność:</label>
+        <input type="number" th:field="*{capacity}" min="1" required/><br/><br/>
+        <label>Ilość pokoi:</label>
+        <input type="number" th:field="*{amount}" min="1" required/><br/><br/>
+        <label>Opis:</label>
+        <textarea th:field="*{description}" required></textarea><br/><br/>
+        <label>Cena za noc (zł):</label>
+        <input type="number" step="0.01" th:field="*{pricePerNight}" min="0" required/><br/><br/>
+        <button type="submit">Dodaj kategorię pokoi</button>
+    </form>
+    <a th:href="@{/admin/rooms}">Powrót do listy kategorii pokoi</a>
+</body>
+</html>

@@ -1,0 +1,237 @@
+/* General styles */
+body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+  }
+  
+  /* Navigation Bar */
+  nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color:rgb(255, 205, 54);
+      padding: 10px 20px;
+      height: 5vh;
+      height: 5dvh;
+      
+  }
+  
+  nav .logo h2 {
+      color: white;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .logo { 
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    margin: 0;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+   .logoimg {
+      width: 10dvh;
+      height: 10dvh;
+      object-fit: fill;
+      aspect-ratio: 1 / 1;
+      
+  }
+  
+  nav .nav-links {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+  }
+  
+  nav .nav-links li {
+      margin-right: 20px;
+  }
+  
+  nav .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+  }
+  
+  nav .menu-icon {
+      display: none;
+      cursor: pointer;
+      font-size: 30px;
+      color: white;
+  }
+  
+  /* Photo Section with CTA */
+  .photo-cta {
+      background-image: url('/images/hero.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 50px 20px;
+      text-align: center;
+      height: 70vh;
+      height: 70dvh;
+
+
+  }
+  
+
+.cta-content {
+    margin-top: 15vh;
+    color:rgb(219, 200, 0);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color:rgb(0, 0, 0);
+  }
+
+    .photo-cta img {
+        width: 25dvh;
+        height: 25dvh;
+        object-fit: fill;
+        aspect-ratio: 1 / 1;
+    }
+
+  .photo-cta h2 {
+      font-size: 36px;
+
+
+  }
+  
+  .photo-cta p {
+      font-size: 20px;
+   
+  }
+  
+  .cta-button {
+      padding: 10px 20px;
+      background-color: #ff6347;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      border-radius: 5px;
+     -webkit-text-stroke-width: 0px;
+    -webkit-text-stroke-color:rgb(0, 0, 0);
+  }
+  
+  /* Apartments Section */
+  #apartments {
+      padding: 50px 20px;
+      background-color: #f4f4f4;
+      text-align: center;
+  }
+  
+  #apartments h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+  }
+  
+  .apartments-list {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+  }
+  
+  .apartment {
+      background-color: white;
+      padding: 20px;
+      margin: 10px;
+      width: 250px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .apartment img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+  }
+  
+  .apartment h3 {
+      font-size: 24px;
+      margin-top: 10px;
+  }
+  
+  .apartment p {
+      font-size: 16px;
+  }
+  
+  /* Media Queries for Mobile */
+  @media (max-width: 768px) {
+      nav .nav-links {
+          display: none;
+      }
+  
+      nav .menu-icon {
+          display: block;
+      }
+  
+      nav.active .nav-links {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 50px;
+          right: 10px;
+          background-color: #333;
+          padding: 10px;
+      }
+  
+      nav .nav-links li {
+          margin-bottom: 10px;
+      }
+  
+      .apartments-list {
+          flex-direction: column;
+          align-items: center;
+      }
+  
+      .apartment {
+          width: 80%;
+      }
+  }
+  
+
+
+
+.avability-check {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.avability-check-inputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+   
+    -webkit-text-stroke-width: 0px;
+    -webkit-text-stroke-color:rgb(0, 0, 0);
+}
+
+.avability-check-inputs-dates {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1vh;
+    margin-bottom: 1dvh;
+    
+}
+
+
+
+
+
+
+  /* JavaScript to toggle nav on mobile */
+  <script>
+      const menuIcon = document.getElementById('menu-icon');
+      const nav = document.querySelector('nav');
+  
+      menuIcon.addEventListener('click', () => {
+          nav.classList.toggle('active');
+      });
+  </script>
+  

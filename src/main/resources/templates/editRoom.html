@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+      <meta charset="UTF-8">
+      <title>Edit Room Category</title>
+      <link rel="stylesheet" href="/css/roomsedit.css">
+      <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="logo">
+            <img src="/images/logo.png" alt="Hotel Logo" class="logoimg">
+            <h2> Dream Hotel </h2> 
+      </div>
+      <ul class="nav-links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/apartments">Our Apartments</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li sec:authorize="isAnonymous()"><a href="/login">Log In</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Log Out</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin">Admin Panel</a></li>
+            <li sec:authorize="hasRole('USER') and isAuthenticated()"><a href="/myReservations">My Reservations</a></li>
+      </ul>
+      <div class="menu-icon" id="menu-icon">
+            <span>&#9776;</span>
+      </div>
+</nav>
+
+      <h1>Edit Room Category</h1>
+      <form th:action="@{/admin/rooms/edit}" th:object="${roomCategory}" method="post" class="form" enctype="multipart/form-data">
+            <input type="hidden" name="id" th:value="${roomCategory.id}" />
+            
+<div class="holder">
+
+ 
+
+            <div class="container"
+           
+            <label>Type:</label>
+            <input type="text" th:field="*{type}" required/><br/><br/>
+            
+            <label>Name:</label>
+            <input type="text" th:field="*{name}" required/><br/><br/>
+            
+            <label>Capacity:</label>
+            <input type="number" th:field="*{capacity}" min="1" required/><br/><br/>
+            
+            <label>Number of rooms:</label>
+            <input type="number" th:field="*{amount}" min="1" required/><br/><br/>
+            
+            <label>Description:</label>
+            <textarea th:field="*{description}" required></textarea><br/><br/>
+            
+            <label>Price per night (PLN):</label>
+            <input type="number" step="0.01" th:field="*{pricePerNight}" min="0" required/><br/><br/>
+            
+            > </div>
+
+            <div class="container"
+           
+            >        <!-- Existing image display -->
+            <label>Current image:</label><br/>
+            <img th:src="@{'/rooms/image/' + ${roomCategory.id}}" alt="Room Image" width="200"/><br/><br/>
+            
+            <label>New image (png, jpg):</label>
+            <input type="file" name="imageFile" accept="image/png, image/jpeg"/><br/><br/>
+             </div>
+
+            </div>
+
+            <div class="holder"
+           
+            >     
+            <!-- New fields for featured selection -->
+            <label>Display on homepage?</label>
+            <input type="checkbox" th:field="*{featured}" /><br/><br/>
+            
+            <label>Display order (lower number = higher, optional):</label>
+            <input type="number" th:field="*{displayOrder}" min="1"/><br/><br/>
+      </div>
+            <button type="submit">Save changes</button>
+      </form>
+   
+      <a th:href="@{/admin/rooms}">Back to room categories list</a>
+</body>
+</html>

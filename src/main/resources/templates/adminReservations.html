@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+      <meta charset="UTF-8">
+      <title>Admin Panel - Reservations</title>
+      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+      <div class="container mt-5">
+            <h1 class="mb-4">All Reservations</h1>
+            <table class="table table-striped table-bordered">
+                  <thead class="thead-dark">
+                        <tr>
+                              <th>ID</th>
+                              <th>Guest Name</th>
+                              <th>Room Category</th>
+                              <th>Meal Option</th>
+                              <th>Check-In Date</th>
+                              <th>Check-Out Date</th>
+                              <th>Total Days</th>
+                              <th>Price per Night</th>
+                              <th>Meal Option Price</th>
+                              <th>Total Price</th>
+                              <th>Change Dates</th>
+                        </tr>
+                  </thead>
+                  <tbody>
+                        <tr th:each="res : ${reservations}">
+                              <td th:text="${res.id}"></td>
+                              <td th:text="${res.guestName}"></td>
+                              <td th:text="${res.roomCategory.name}"></td>
+                              <td th:text="${res.mealOption}"></td>
+                              <td th:text="${res.checkInDate}"></td>
+                              <td th:text="${res.checkOutDate}"></td>
+                              <td th:text="${res.totalDays}"></td>
+                              <td th:text="${res.roomPricePerNight}"></td>
+                              <td th:text="${res.mealOptionPrice}"></td>
+                              <td th:text="${res.totalPrice}"></td>
+                              <td>
+                                    <a class="btn btn-primary btn-sm" th:href="@{'/updateReservationForm/' + ${res.id}}">Change Dates</a>
+                              </td>
+                        </tr>
+                  </tbody>
+            </table>
+            <a class="btn btn-secondary mt-3" th:href="@{/home}">Back to Home</a>
+      </div>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

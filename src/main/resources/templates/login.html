@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dream Hotel - Log In</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">
+            <img src="/images/logo.png" alt="Hotel Logo" class="logoimg">
+            <h2>Dream Hotel</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/apartments">Our Apartments</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li sec:authorize="isAnonymous()"><a href="/login">Log In</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Log Out</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin">Admin Panel</a></li>
+            <li sec:authorize="hasRole('USER') and isAuthenticated()"><a href="/myReservations">My Reservations</a></li>
+        </ul>
+    </nav>
+
+    <h1>Logowanie <img src="/images/logo.png" alt="Hotel Logo" class="logimg"></h1>
+    <form th:action="@{/login}" method="post">
+        <div>
+            <label>Username:</label>
+            <input type="text" name="username" required/>
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password" required/>
+        </div>
+        <div>
+            <button type="submit">Zaloguj się</button>
+        </div>
+    </form>
+
+    <!-- Optional login error message -->
+    <div th:if="${param.error}">
+        <p style="color: red;">Nieprawidłowe dane logowania.</p>
+    </div>
+    <div th:if="${param.logout}">
+        <p style="color: green;">Wylogowano pomyślnie.</p>
+    </div>
+</body>
+</html>

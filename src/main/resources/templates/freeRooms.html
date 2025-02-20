@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DreamHotel - Free rooms </title>
+    <link rel="stylesheet"  href="/css/style.css">
+    <link rel="stylesheet"  href="/css/freerooms.css">
+</head>
+<body>
+      <nav>
+            <div class="logo">
+              
+          <img src="/images/logo.png" alt="Hotel Logo" class="logoimg">
+          <h2> Dream Hotel </h2> 
+            </div>
+            <ul class="nav-links">
+                <li><a href="/home">Home</a></li>
+                <li><a href="/apartments">Our Apartments</a></li>
+                <li><a href="/About">About Us</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/login">Log In</a></li>
+            </ul>
+            <div class="menu-icon" id="menu-icon">
+                <span>&#9776;</span>
+            </div>
+        </nav>
+    
+        <h1>Check Another Dates</h1>
+        <form th:action="@{/freeRooms}" method="post">
+            <label>Check-In Date:</label>
+            <input type="date" name="checkInDate" required/><br/><br/>
+            <label>Check-Out Date:</label>
+            <input type="date" name="checkOutDate" required/><br/><br/>
+            <button type="submit">Check Availability</button>
+        </form>
+
+
+        <div th:if="${availability}">
+            <div th:each="room : ${availability}" class="card" style="width: 18rem; display: inline-block; margin: 1rem;">
+              <img th:src="@{'/rooms/image/' + ${room.roomCategoryId}}" alt="Room Image" style="width:100%">
+              <div class="container">
+                <h4><b th:text="${room.roomName}"></b></h4>
+                <p>Left: <span th:text="${room.freeCount}"></span> available</p>
+                <!-- Link to room details page -->
+                <a th:href="@{'/room/' + ${room.roomCategoryId}}" class="btn btn-primary">View Details</a>
+              </div>
+            </div>
+          </div>
+          
+        
+
+
+
+</body>
+</html>

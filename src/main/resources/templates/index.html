@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>DreamHotel </title>
+    <link rel="stylesheet"  href="/css/style.css">
+
+</head>
+<body>
+    <!-- Navigation Bar -->
+<nav>
+      <div class="logo">
+            <img src="/images/logo.png" alt="Hotel Logo" class="logoimg">
+            <h2> Dream Hotel </h2> 
+      </div>
+      <ul class="nav-links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/apartments">Our Apartments</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li sec:authorize="isAnonymous()"><a href="/login">Log In</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Log Out</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin">Admin Panel</a></li>
+            <li sec:authorize="hasRole('USER') and isAuthenticated()"><a href="/myReservations">My Reservations</a></li>
+      </ul>
+      <div class="menu-icon" id="menu-icon">
+            <span>&#9776;</span>
+      </div>
+</nav>
+
+
+<!-- Display Success or Error Message -->
+<div th:if="${message}" class="alert alert-success">
+      <p th:text="${message}"></p>
+  </div>
+  <div th:if="${error}" class="alert alert-danger">
+      <p th:text="${error}"></p>
+  </div>
+  
+    <!-- Photo Section with CTA -->
+    <section class="photo-cta">
+        <div class="cta-content">
+      
+            <h2>Experience Our Luxurious Apartments</h2>
+            <p>Book now and enjoy a relaxing stay at our finest locations.</p>
+
+            <form th:action="@{/freeRooms}" method="post" class="avability-check">
+                  <div class="avability-check-inputs"> 
+                        
+                        <div class="avability-check-inputs-dates">
+                              <label>Check-In Date:</label>
+                              <input type="date" name="checkInDate" required/>
+                        </div> 
+
+                        <div class="avability-check-inputs-dates">
+                              <label>Check-Out Date:</label>
+                  <input type="date" name="checkOutDate" required/>
+                        </div> 
+
+                  </div>
+
+                  <button class="cta-button" type="submit">Check Availability</button>
+              </form>
+
+   
+        </div>
+    </section>
+
+
+
+  </div>
+
+    <!-- List of Apartments -->
+    <section id="apartments">
+        <h2>Our Apartments</h2>
+        <div  class="apartments-list">
+            <div th:each="room : ${featuredRooms}"  class="apartment">
+                <img th:if="${room.image != null}" th:src="@{'/rooms/image/' + ${room.id}}" alt="Room Image">
+                <h3 th:text="${room.name}" ></h3>
+                <p th:text="${room.description}" ></p>
+            </div>
+        </div>
+    </section>
+
+
+    
+
+
+</body>
+</html>

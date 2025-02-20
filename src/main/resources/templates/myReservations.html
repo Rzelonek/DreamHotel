@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>My Reservations</title>
+  <link rel="stylesheet"  href="/css/myreservation.css">
+  <link rel="stylesheet"  href="/css/style.css">
+
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="logo">
+            <img src="/images/logo.png" alt="Hotel Logo" class="logoimg">
+            <h2> Dream Hotel </h2> 
+      </div>
+      <ul class="nav-links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/apartments">Our Apartments</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li sec:authorize="isAnonymous()"><a href="/login">Log In</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Log Out</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin">Admin Panel</a></li>
+            <li sec:authorize="hasRole('USER') and isAuthenticated()"><a href="/myReservations">My Reservations</a></li>
+      </ul>
+      <div class="menu-icon" id="menu-icon">
+            <span>&#9776;</span>
+      </div>
+</nav>
+
+
+
+  <h1>My Reservations</h1>
+
+<!-- Display Success or Error Message -->
+<div th:if="${message}" class="alert alert-success">
+      <p th:text="${message}"></p>
+  </div>
+  <div th:if="${error}" class="alert alert-danger">
+      <p th:text="${error}"></p>
+  </div>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Room Category</th>
+        <th>Meal Option</th>
+        <th>Check-In Date</th>
+        <th>Check-Out Date</th>
+        <th>Total Days</th>
+        <th>Price per Night</th>
+        <th>Meal Option Price</th>
+        <th>Total Price</th>
+        <th>Change Dates</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="res : ${reservations}">
+        <td th:text="${res.id}"></td>
+        <td th:text="${res.roomCategory.name}"></td>
+        <td th:text="${res.mealOption}"></td>
+        <td th:text="${res.checkInDate}"></td>
+        <td th:text="${res.checkOutDate}"></td>
+        <td th:text="${res.totalDays}">0</td>
+        <td th:text="${res.roomPricePerNight}">0</td>
+        <td th:text="${res.mealOptionPrice}">0</td>
+        <td th:text="${res.totalPrice}">0</td>
+        <td>
+          <a th:href="@{'/updateReservationForm/' + ${res.id}}">Change Dates</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br/>
+  <a th:href="@{/home}">Back to Home</a>
+</body>
+</html>

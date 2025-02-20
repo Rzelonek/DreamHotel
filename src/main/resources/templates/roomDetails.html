@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${room.name} + ' Details'">Room Details</title>
+    <!-- Optionally include Bootstrap for layout -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <link rel="stylesheet"  href="/css/roomdetails.css">
+    <link rel="stylesheet"  href="/css/style.css">
+</head>
+<body>
+
+
+
+          <!-- Navigation Bar -->
+    <nav>
+      <div class="logo">
+            <img src="/images/logo.png" alt="Hotel Logo" class="logoimg">
+            <h2> Dream Hotel </h2> 
+      </div>
+      <ul class="nav-links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/apartments">Our Apartments</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li sec:authorize="isAnonymous()"><a href="/login">Log In</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Log Out</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin">Admin Panel</a></li>
+            <li sec:authorize="hasRole('USER') and isAuthenticated()"><a href="/myReservations">My Reservations</a></li>
+      </ul>
+      <div class="menu-icon" id="menu-icon">
+            <span>&#9776;</span>
+      </div>
+</nav>
+      
+
+<div class="containerss">
+    <div class="row">
+        <!-- Left Column: Reservation Form or Log In button -->
+        <div class="col-md-6">
+            <div sec:authorize="isAuthenticated()">
+                <h2>Reserve This Room</h2>
+                <!-- Reservation form -->
+                <form th:action="@{/reserve}" th:object="${reservationDTO}" method="post">
+                    <!-- Auto selected room category (hidden) -->
+                    <input type="hidden" th:field="*{roomCategoryId}" />
+
+                    <div class="form-group">
+                        <label>Meal Option:</label>
+                        <select th:field="*{mealOption}" class="form-control" id="mealOption">
+                            <option th:each="meal : ${mealOptions}"
+                                    th:value="${meal.name()}"
+                                    th:text="${meal}"></option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Check-In Date:</label>
+                        <input type="date" th:field="*{checkInDate}" class="form-control" id="checkInDate" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Check-Out Date:</label>
+                        <input type="date" th:field="*{checkOutDate}" class="form-control" id="checkOutDate" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Number of Persons:</label>
+                        <input type="number" th:field="*{numberOfPersons}" class="form-control" id="numberOfPersons" min="1" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Total Price:</label>
+                        <input type="text" class="form-control" id="totalPrice" readonly />
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Reserve Now</button>
+                </form>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                <h2>Please Log In to Reserve</h2>
+                <a th:href="@{/login}" class="btn btn-secondary">Log In</a>
+            </div>
+        </div>
+        
+        <!-- Right Column: Room Details -->
+        <div class="col-md-6">
+            <h2 th:text="${room.name}">Room Name</h2>
+            <p th:text="${room.description}">Room Description</p>
+            <p>Capacity: <span th:text="${room.capacity}"></span> persons</p>
+            <p>Price per night: <span id="roomPrice" th:text="${room.pricePerNight}"></span> PLN</p>
+            <div>
+                <img th:if="${room.image != null}"
+                     th:src="@{'/rooms/image/' + ${room.id}}"
+                     alt="Room Image"
+                     class="img-fluid"
+                     style="max-width:400px;"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden container to hold the room's price per night (for JS calculation) -->
+<div id="roomData" th:inline="text" data-price-per-night="[[${room.pricePerNight}]]" style="display:none;"></div>
+
+
+<!-- JavaScript to dynamically calculate total price -->
+<script>
+    // Mapping meal options to additional costs.
+    // Adjust these values if your MealOption enum uses different costs.
+    var mealCosts = {
+        'NONE': 0,
+        'BREAKFAST': 10,
+        'BREAKFAST_AND_DINNER': 20
+    };
+
+    function calculateTotalPrice() {
+      var roomDataElem = document.getElementById('roomData');
+      if (!roomDataElem) return;
+      var priceStr = roomDataElem.getAttribute('data-price-per-night');
+      console.log("Raw price attribute:", priceStr);
+      var pricePerNightText = document.getElementById('roomPrice').innerText;
+      var pricePerNight = parseFloat(pricePerNightText);
+      console.log("Parsed price per night:", pricePerNight);
+      
+      console.log("Parsed price per night:", pricePerNight);
+      var mealOption = document.getElementById('mealOption').value;
+      var additionalCost = mealCosts[mealOption] || 0;
+      var checkInVal = document.getElementById('checkInDate').value;
+      var checkOutVal = document.getElementById('checkOutDate').value;
+      if (checkInVal && checkOutVal) {
+          var checkInDate = new Date(checkInVal);
+          var checkOutDate = new Date(checkOutVal);
+          if (checkOutDate > checkInDate) {
+              var diffTime = checkOutDate - checkInDate;
+              var nights = diffTime / (1000 * 60 * 60 * 24);
+              var totalPrice = (pricePerNight + additionalCost) * nights;
+              document.getElementById('totalPrice').value = totalPrice.toFixed(2) + " PLN";
+          } else {
+              document.getElementById('totalPrice').value = "";
+          }
+      }
+  }
+  
+  
+
+    document.getElementById('checkInDate').addEventListener('change', calculateTotalPrice);
+    document.getElementById('checkOutDate').addEventListener('change', calculateTotalPrice);
+    document.getElementById('mealOption').addEventListener('change', calculateTotalPrice);
+    document.getElementById('numberOfPersons').addEventListener('change', calculateTotalPrice);
+</script>
+</body>
+</html>

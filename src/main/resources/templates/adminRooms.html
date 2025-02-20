@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+      <meta charset="UTF-8">
+      <title>Admin Panel - Room Categories</title>
+      <link rel="stylesheet" href="/css/adminrooms.css">
+      <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="logo">
+            <img src="/images/logo.png" alt="Hotel Logo" class="logoimg">
+            <h2> Dream Hotel </h2> 
+      </div>
+      <ul class="nav-links">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/apartments">Our Apartments</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li sec:authorize="isAnonymous()"><a href="/login">Log In</a></li>
+            <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Log Out</a></li>
+            <li sec:authorize="hasRole('ADMIN')"><a href="/admin">Admin Panel</a></li>
+            <li sec:authorize="hasRole('USER') and isAuthenticated()"><a href="/myReservations">My Reservations</a></li>
+      </ul>
+      <div class="menu-icon" id="menu-icon">
+            <span>&#9776;</span>
+      </div>
+</nav>
+
+      <h1>Room Categories List</h1>
+      <a th:href="@{/admin/rooms/add}">Add New Category</a>
+      <table border="1">
+            <thead>
+                  <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Capacity</th>
+                        <th>Number of Rooms</th>
+                        <th>Description</th>
+                        <th>Price per Night (PLN)</th>
+                        <th>Displayed?</th>
+                        <th>Order</th>
+                        <th>Image</th>
+                        <th>Options</th>
+                  </tr>
+            </thead>
+            <tbody>
+                  <tr th:each="room : ${rooms}">
+                        <td th:text="${room.id}"></td>
+                        <td th:text="${room.type}"></td>
+                        <td th:text="${room.name}"></td>
+                        <td th:text="${room.capacity}"></td>
+                        <td th:text="${room.amount}"></td>
+                        <td th:text="${room.description}"></td>
+                        <td th:text="${room.pricePerNight}"></td>
+                        <td th:text="${room.featured ? 'Yes' : 'No'}"></td>
+                        <td th:text="${room.displayOrder}"></td>
+                        <td>
+                              <img th:if="${room.image != null}" th:src="@{'/rooms/image/' + ${room.id}}" alt="Room Image" width="100"/>
+                        </td>
+                        <td>
+                              <a th:href="@{'/admin/rooms/edit/' + ${room.id}}">Edit</a>
+                        </td>
+                  </tr>
+            </tbody>
+      </table>
+      <br/>
+      <a th:href="@{/home}">Back to Home Page</a>
+</body>
+</html>

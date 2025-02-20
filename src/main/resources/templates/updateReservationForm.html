@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+      <meta charset="UTF-8">
+      <title>Update Reservation Dates</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+      <div class="container mt-5">
+            <h1 class="mb-4">Update Reservation Dates</h1>
+            <form th:action="@{/updateReservation}" method="post">
+                  <input type="hidden" name="reservationId" th:value="${reservation.id}" />
+                  <div class="form-group">
+                        <label>Original Check-In Date:</label>
+                        <p class="form-control-plaintext" th:text="${reservation.originalCheckInDate}"></p>
+                  </div>
+                  <div class="form-group">
+                        <label>Current Check-In Date:</label>
+                        <p class="form-control-plaintext" th:text="${reservation.checkInDate}"></p>
+                  </div>
+                  <div class="form-group">
+                        <label>Current Check-Out Date:</label>
+                        <p class="form-control-plaintext" th:text="${reservation.checkOutDate}"></p>
+                  </div>
+                  <div class="form-group">
+                        <label for="newCheckIn">New Check-In Date:</label>
+                        <input type="date" class="form-control" id="newCheckIn" name="newCheckIn" required />
+                  </div>
+                  <div class="form-group">
+                        <label for="newCheckOut">New Check-Out Date:</label>
+                        <input type="date" class="form-control" id="newCheckOut" name="newCheckOut" required />
+                  </div>
+                  <div class="form-group">
+                        <small class="form-text text-muted">
+                              (New Check-In must be not earlier than the original Check-In and not later than one month from the original Check-In.)
+                        </small>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Update Dates</button>
+            </form>
+            <br/>
+            <a th:href="@{/myReservations}" class="btn btn-secondary">Back to My Reservations</a>
+      </div>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
