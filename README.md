@@ -1,4 +1,4 @@
-![Zrzut ekranu 2025-02-20 22152131252](https://github.com/user-attachments/assets/98e91b2c-19aa-4ad8-bf13-d6634e373511)# DreamHotel
+# DreamHotel
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
 > [!IMPORTANT]  
