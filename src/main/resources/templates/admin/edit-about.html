@@ -2,23 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Edit About Section</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Edit About Section</h1>
-    <form th:action="@{/admin/edit-about}" method="post" enctype="multipart/form-data">
-        <div>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" th:value="${aboutSection.title}" required />
-        </div>
-        <div>
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required th:text="${aboutSection.description}"></textarea>
-        </div>
-        <div>
-            <label for="imageFile">Upload Image:</label>
-            <input type="file" id="imageFile" name="imageFile" />
-        </div>
-        <button type="submit">Save</button>
-    </form>
+    <div class="container mt-5">
+        <h1 class="mb-4">Edit About Section</h1>
+        <form th:action="@{/admin/edit-about}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" th:value="${aboutSection.title}" required />
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="description" rows="5" required th:text="${aboutSection.description}"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="imageFile">Upload Image:</label>
+                <input type="file" class="form-control-file" id="imageFile" name="imageFile" />
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/" class="btn btn-secondary ml-2">Back to Home Page</a>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

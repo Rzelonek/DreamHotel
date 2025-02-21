@@ -1,42 +1,20 @@
 package com.example.hotelreservation.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.example.hotelreservation.service.CustomUserDetailsService;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import org.springframework.security.web.SecurityFilterChain;
-
 import com.example.hotelreservation.session.SessionConstants;
-
 import jakarta.servlet.http.HttpSession;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-      // used from another project ( dream travel ) just for testing resons
-      // @Bean
-      // public FilterRegistrationBean<AdminFilter> filterRegistrationBean() {
-      // FilterRegistrationBean<AdminFilter> registrationBean = new
-      // FilterRegistrationBean<>();
-
-      // registrationBean.setFilter(new AdminFilter());
-      // registrationBean.addUrlPatterns("/admin/*");
-      // registrationBean.setOrder(1);
-
-      // return registrationBean;
-      // }
 
       @Autowired
       private CustomUserDetailsService customUserDetailsService;
@@ -63,12 +41,12 @@ public class SecurityConfig {
                                     .permitAll()
                                     .requestMatchers("/admin/**").hasRole("ADMIN")
                                     .anyRequest().authenticated())
-
                         .formLogin((form) -> form
                                     .loginPage("/login")
-                                    .permitAll().successHandler((request, response, authentication) -> {
+                                    .permitAll()
+                                    .successHandler((request, response, authentication) -> {
                                           String role = authentication.getAuthorities().stream()
-                                                      .map(grantedAuthorityt -> grantedAuthorityt.getAuthority())
+                                                      .map(grantedAuthority -> grantedAuthority.getAuthority())
                                                       .findFirst().orElse(null);
                                           HttpSession session = request.getSession();
                                           session.setAttribute(SessionConstants.USER_KEY, role);
@@ -80,13 +58,12 @@ public class SecurityConfig {
                                     .invalidateHttpSession(true)
                                     .clearAuthentication(true)
                                     .deleteCookies("JSESSIONID"))
-                        .exceptionHandling(exception -> exception.accessDeniedPage("/access-denied"))
+                        .exceptionHandling(exception -> exception
+                                    .accessDeniedPage("/access-denied"))
                         .sessionManagement((session) -> session
                                     .invalidSessionUrl("/login")
                                     .maximumSessions(1)
-                                    .expiredUrl("/login?expired"))
-
-            ;
+                                    .expiredUrl("/login?expired"));
 
             return http.build();
       }

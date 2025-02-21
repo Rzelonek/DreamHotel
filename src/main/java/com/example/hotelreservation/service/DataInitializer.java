@@ -103,7 +103,7 @@ public class DataInitializer {
                   if (contactInfoRepository.count() == 0) {
                         ContactInfo contactInfo = new ContactInfo();
                         contactInfo.setLocationName("Dream Hotel Central");
-                        contactInfo.setAddress("123 Main St, Dream City, DC 12345");
+                        contactInfo.setAddress("Dreamland");
                         contactInfo.setPhone("+1 (555) 123-4567");
                         contactInfo.setEmail("dreamhoterl@dreamhotel.dream");
                         contactInfoRepository.save(contactInfo);
