@@ -1,24 +1,25 @@
 package com.example.hotelreservation.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.hotelreservation.service.CustomUserDetailsService;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
+
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
 import org.springframework.security.web.SecurityFilterChain;
-import com.example.hotelreservation.Filters.AdminFilter;
-import com.example.hotelreservation.repository.UserRepository;
+
+import com.example.hotelreservation.session.SessionConstants;
+
+import jakarta.servlet.http.HttpSession;
 
 @Configuration
 @EnableWebSecurity
@@ -38,23 +39,19 @@ public class SecurityConfig {
       // }
 
       @Autowired
-      private UserRepository userRepository;
+      private CustomUserDetailsService customUserDetailsService;
 
       @Bean
-      public UserDetailsService userDetailsService() {
-            return username -> {
-                  com.example.hotelreservation.model.User appUser = userRepository.findByLogin(username); // Look up
-                                                                                                          // user by
-                                                                                                          // login
-                  if (appUser == null) {
-                        throw new UsernameNotFoundException("User not found");
-                  }
-                  return org.springframework.security.core.userdetails.User
-                              .withUsername(appUser.getLogin())
-                              .password(appUser.getPassword()) // Get password from the database (hashed)
-                              .roles(appUser.getRole().name())
-                              .build();
-            };
+      public BCryptPasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+      }
+
+      @Bean
+      public DaoAuthenticationProvider authenticationProvider() {
+            DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+            authProvider.setUserDetailsService(customUserDetailsService);
+            authProvider.setPasswordEncoder(passwordEncoder());
+            return authProvider;
       }
 
       @Bean
@@ -64,32 +61,34 @@ public class SecurityConfig {
                                     .requestMatchers("/", "/home", "/freeRooms", "/freeRooms/**", "/room/**",
                                                 "/rooms/image/**", "/css/**", "/images/**")
                                     .permitAll()
+                                    .requestMatchers("/admin/**").hasRole("ADMIN")
                                     .anyRequest().authenticated())
 
                         .formLogin((form) -> form
                                     .loginPage("/login")
-                                    .permitAll())
+                                    .permitAll().successHandler((request, response, authentication) -> {
+                                          String role = authentication.getAuthorities().stream()
+                                                      .map(grantedAuthorityt -> grantedAuthorityt.getAuthority())
+                                                      .findFirst().orElse(null);
+                                          HttpSession session = request.getSession();
+                                          session.setAttribute(SessionConstants.USER_KEY, role);
+                                          response.sendRedirect("/home");
+                                    }))
                         .logout((logout) -> logout
                                     .permitAll()
-                                    .logoutSuccessUrl("/home") // Redirect to home page after logout
-                                    .invalidateHttpSession(true) // Invalidate the session on logout
-                                    .clearAuthentication(true) // Clear authentication
-                                    .deleteCookies("JSESSIONID") // Remove the session cookie
-                        )
+                                    .logoutSuccessUrl("/home")
+                                    .invalidateHttpSession(true)
+                                    .clearAuthentication(true)
+                                    .deleteCookies("JSESSIONID"))
+                        .exceptionHandling(exception -> exception.accessDeniedPage("/access-denied"))
                         .sessionManagement((session) -> session
-                                    .invalidSessionUrl("/login") // Redirect to login page if session is invalid
-                                    .maximumSessions(1) // Optional: limit to one session per user
-                                    .expiredUrl("/login?expired") // Optional: redirect when session expires
-                        )
+                                    .invalidSessionUrl("/login")
+                                    .maximumSessions(1)
+                                    .expiredUrl("/login?expired"))
 
             ;
 
             return http.build();
-      }
-
-      @Bean
-      public BCryptPasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
       }
 
 }

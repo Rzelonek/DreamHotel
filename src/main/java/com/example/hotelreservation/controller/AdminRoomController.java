@@ -3,8 +3,6 @@ package com.example.hotelreservation.controller;
 import com.example.hotelreservation.entity.RoomCategory;
 import com.example.hotelreservation.service.RoomCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -93,7 +91,7 @@ public class AdminRoomController {
             return "redirect:/admin/rooms";
       }
 
-      // // Endpoint to serve the image for a given room category
+      // // Endpoint to serve the image for a given room category old method
       // @GetMapping("/image/{id}")
       // @ResponseBody
       // public ResponseEntity<byte[]> getRoomImage(@PathVariable Long id) {

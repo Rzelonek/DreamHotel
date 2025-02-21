@@ -18,6 +18,8 @@ table {
       border-collapse: collapse;
       margin: 20px 0;
       box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
 }
 
 th, td {
@@ -67,4 +69,21 @@ nav {
       top: 0;
       left: 0;
       width: 100%;
+}
+
+.alert {
+      width: 90%;
+      margin: 20px 0;
+      padding: 15px;
+      border-radius: 5px;
+}
+
+.alert-success {
+      background-color: #dff0d8;
+      color: #3c763d;
+}
+
+.alert-danger {
+      background-color: #f2dede;
+      color: #a94442;
 }

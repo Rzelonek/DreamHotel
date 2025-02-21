@@ -14,12 +14,9 @@ body {
       padding: 10px 20px;
       height: 5vh;
       height: 5dvh;
-
+      
   }
   
-
-
-
   nav .logo h2 {
       color: white;
       margin: 0;
@@ -50,7 +47,6 @@ body {
       display: flex;
       margin: 0;
       padding: 0;
-      margin-right: 30px;
   }
   
   nav .nav-links li {

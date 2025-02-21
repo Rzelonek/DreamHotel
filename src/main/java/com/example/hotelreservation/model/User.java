@@ -3,9 +3,6 @@ package com.example.hotelreservation.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @NoArgsConstructor
 @Getter
 @Setter
@@ -17,16 +14,16 @@ public class User {
       private Long id;
       private String name;
       private String surname;
-      private String login;
+      private String username;
       private String password;
       @Enumerated(EnumType.STRING)
       private Role role;
 
-      public User(Long id, String name, String surname, String login, String password, Role role) {
+      public User(Long id, String name, String surname, String username, String password, Role role) {
             this.id = id;
             this.name = name;
             this.surname = surname;
-            this.login = login;
+            this.username = username;
             this.password = password;
             this.role = role;
       }
@@ -35,9 +32,15 @@ public class User {
             this.id = id;
       }
 
+      // g^s
+
       public enum Role {
             ADMIN,
             USER
+      }
+
+      public User orElseThrow(Object object) {
+            throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
       }
 
 }

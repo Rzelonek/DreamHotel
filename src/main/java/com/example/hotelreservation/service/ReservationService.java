@@ -67,8 +67,7 @@ public class ReservationService {
                         dto.getCheckOutDate(),
                         dto.getNumberOfPersons(),
                         totalPrice,
-                        dto.getCheckInDate() // originalCheckInDate
-            );
+                        dto.getCheckInDate());
             return reservationRepository.save(reservation);
       }
 
@@ -127,12 +126,10 @@ public class ReservationService {
             return reservationRepository.save(reservation);
       }
 
-      // Retrieve reservations for a given guest name.
       public List<Reservation> getReservationsByUser(String guestName) {
             return reservationRepository.findByGuestName(guestName);
       }
 
-      // Retrieve all reservations (for the admin panel).
       public List<Reservation> getAllReservations() {
             return reservationRepository.findAll();
       }

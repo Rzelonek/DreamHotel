@@ -3,10 +3,10 @@ package com.example.hotelreservation.controller;
 import com.example.hotelreservation.dto.ReservationDTO;
 import com.example.hotelreservation.entity.Reservation;
 import com.example.hotelreservation.service.ReservationService;
-import com.example.hotelreservation.service.RoomCategoryService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +21,6 @@ public class ReservationController {
 
       @Autowired
       private ReservationService reservationService;
-
-      @Autowired
-      private RoomCategoryService roomCategoryService;
 
       @PostMapping("/reserve")
       public String createReservation(@ModelAttribute("reservationDTO") ReservationDTO dto,

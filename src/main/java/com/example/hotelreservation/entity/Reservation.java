@@ -2,7 +2,6 @@
 package com.example.hotelreservation.entity;
 
 import com.example.hotelreservation.enums.MealOption;
-import com.example.hotelreservation.enums.RoomType;
 import java.time.LocalDate;
 import jakarta.persistence.*;
 import java.time.temporal.ChronoUnit;

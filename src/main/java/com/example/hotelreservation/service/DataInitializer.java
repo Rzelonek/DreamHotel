@@ -1,7 +1,11 @@
 package com.example.hotelreservation.service;
 
 import com.example.hotelreservation.model.User;
+import com.example.hotelreservation.entity.AboutSection;
+import com.example.hotelreservation.entity.ContactInfo;
 import com.example.hotelreservation.entity.RoomCategory;
+import com.example.hotelreservation.repository.AboutSectionRepository;
+import com.example.hotelreservation.repository.ContactInfoRepository;
 import com.example.hotelreservation.repository.RoomCategoryRepository;
 import com.example.hotelreservation.repository.UserRepository;
 
@@ -12,13 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StreamUtils;
-import org.springframework.stereotype.Service;
-
-import org.springframework.util.DigestUtils;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Base64;
 
 import java.io.IOException;
 
@@ -27,6 +24,12 @@ public class DataInitializer {
 
       @Autowired
       private BCryptPasswordEncoder passwordEncoder;
+
+      @Autowired
+      private AboutSectionRepository aboutSectionRepository;
+
+      @Autowired
+      private ContactInfoRepository contactInfoRepository;
 
       @Bean
       CommandLineRunner initDatabase(RoomCategoryRepository roomCategoryRepository, UserRepository userRepository) {
@@ -84,6 +87,28 @@ public class DataInitializer {
                         userRepository.save(admin);
                         userRepository.save(user);
                   }
+
+                  // Initialize About Section (if not present)
+                  if (aboutSectionRepository.count() == 0) {
+                        AboutSection aboutSection = new AboutSection();
+                        aboutSection.setTitle("About Dream Hotel");
+                        aboutSection.setDescription(
+                                    "Dream Hotel was founded by the legendary Queen of the Dream Mountains in Dreamland. Inspired by her vision of a sanctuary where luxury meets enchantment, the hotel was built to offer guests a realm of comfort and sophistication. With its regal charm and modern amenities, Dream Hotel invites you to experience a storybook escape where every detail is designed to make your stay truly magical.");
+                        aboutSection.setImage(readImage("static/images/about.jpg"));
+
+                        aboutSectionRepository.save(aboutSection);
+                  }
+
+                  // Initialize Contact Info (if not present)
+                  if (contactInfoRepository.count() == 0) {
+                        ContactInfo contactInfo = new ContactInfo();
+                        contactInfo.setLocationName("Dream Hotel Central");
+                        contactInfo.setAddress("123 Main St, Dream City, DC 12345");
+                        contactInfo.setPhone("+1 (555) 123-4567");
+                        contactInfo.setEmail("dreamhoterl@dreamhotel.dream");
+                        contactInfoRepository.save(contactInfo);
+                  }
+
             };
       }
 
