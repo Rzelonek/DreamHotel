@@ -20,6 +20,7 @@ admins able to manage room availability, reservations, and rooms.
 The system includes meal selections (non or breakfast or breakfast and dinner), and administrators can upload images for room categories and create new one if needed. It ensures secure login through Spring Security and manages data using Hibernate.
 ![Zrzut ekranu 2025-02-20 220510](https://github.com/user-attachments/assets/6c23e429-62d4-41fd-9f7d-f37bd256be65)
 
+![Zrzut ekranu 2025-02-21 212812](https://github.com/user-attachments/assets/30c56694-d17b-4512-a9af-284256e30a39)
 
 Below are the key features and functionalities included in DreamHotel:
 
@@ -69,9 +70,9 @@ password: user
 
 DreamHotel is a constantly evolving platform designed to meet user needs for flexible trip booking, while providing a streamlined experience for both travelers and administrators. With upcoming features like 
 
- - Aboput us section
+ - ~~About us section,~~ ✅
+ - ~~Contact section~~ ✅
  - Cancel reservation ,
- - Contact section,
  - User Managment,
  - Payment status and payment system
  - and improved UI/UX,
@@ -79,25 +80,37 @@ DreamHotel is a constantly evolving platform designed to meet user needs for fle
 
 DreamHotel aims to be the go-to open srouce platform for all Hotels.
 
+## Updates
 
-
-
+> [!NOTE]
+> UPDATE 21.02.2025 : fixed auth added sections about us and contact  with option to  customize them. deleted some old code or not used class but still repo is full of not the clenest code at least in my opinion. 
 
 ## Screenshots
 
+Check dates for avalible rooms 
 ![Zrzut ekranu 2025-02-20 220839](https://github.com/user-attachments/assets/999a2adf-7719-4535-8571-00db98244434)
+Room detail and reservation 
 ![Zrzut ekranu 2025-02-20 220929](https://github.com/user-attachments/assets/d45dcabe-f614-427a-9177-12abb8de8ad3)
-
+Editing room category list 
 ![Zrzut ekranu 2025-02-20 221513](https://github.com/user-attachments/assets/21138f54-47f2-4531-be0b-46d5efb5d155)
+Edit specific room 
 ![Zrzut ekranu 2025-02-20 22152131252](https://github.com/user-attachments/assets/f4fd1f49-3cf7-4e3b-8fe0-96854b03622f)
 
+See all reservation 
 ![Zrzut ekranu 2025-02-20 221640](https://github.com/user-attachments/assets/85206519-f043-493e-bfdc-b7e18a8fa865)
 
-
+Change dates 
 ![Zrzut ekranu 2025-02-20 221704](https://github.com/user-attachments/assets/89434bbd-a51a-46cf-8593-d763e3b6b7a5)
 
-
+See your reservation
 ![Zrzut ekranu 2025-02-20 221739](https://github.com/user-attachments/assets/f1c8e2bd-5b4d-49e8-9159-9e254788378d)
 
+Admin panel ( 21.02.2025 ) 
+![Zrzut ekranu 2025-02-21 212516](https://github.com/user-attachments/assets/8b29b227-2f4c-49b2-aa9a-6af540cecd74)
 
+Edit contact section ( forgot to put edit for email 🤷‍♂️)
+![image](https://github.com/user-attachments/assets/df10c947-6e3b-43ab-b86e-bb967aa5d877)
+
+Edit about us 
+![Zrzut ekranu 2025-02-21 212732](https://github.com/user-attachments/assets/ac46eef0-9eb6-4d9f-ab45-928be807e024)
 
